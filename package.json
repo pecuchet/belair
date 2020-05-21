@@ -8,7 +8,8 @@
     "serve": "sirv build --cors --single",
     "dev": "preact watch",
     "lint": "eslint src",
-    "test": "jest"
+    "test": "jest",
+    "dev:cron": "webpack --mode development --config webpack.config.cron.js"
   },
   "eslintConfig": {
     "extends": "preact",
@@ -26,9 +27,11 @@
     "jest-preset-preact": "^1.0.0",
     "preact-cli": "^3.0.0-rc.6",
     "preact-render-spy": "^1.2.1",
-    "sirv-cli": "^0.4.5"
+    "sirv-cli": "^0.4.5",
+    "webpack-cli": "^3.3.11"
   },
   "dependencies": {
+    "cron": "github:kelektiv/node-cron#master",
     "preact": "^10.3.2",
     "preact-render-to-string": "^5.1.4",
     "preact-router": "^3.2.1"
