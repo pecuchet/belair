@@ -6,7 +6,7 @@
   "scripts": {
     "build": "preact build",
     "serve": "sirv build --cors --single",
-    "dev": "preact watch",
+    "dev": "preact watch -p 12345",
     "lint": "eslint src",
     "test": "jest",
     "dev:cron": "webpack --mode development --config webpack.config.cron.js"

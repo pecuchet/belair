@@ -1,0 +1,69 @@
+version: '3.7'
+
+networks:
+  internal:
+    external: false
+  proxy-network:
+    external:
+      name: ${DOCKER_NETWORK}
+
+volumes:
+  redis-data:
+
+services:
+  app:
+    depends_on:
+      - redis
+    build:
+      context: ./
+      dockerfile: Dockerfile
+      args:
+        - NODE_ENV=${APP_ENV}
+        - APP_TIMEZONE=${APP_TIMEZONE}
+    image: dotburo/belair
+    container_name: belair
+    networks:
+      - internal
+      - proxy-network
+    ports:
+      - 12345:12345
+    volumes:
+      - .:/var/www/html
+    labels:
+      traefik.enable: 'true'
+      traefik.backend: 'belair'
+      traefik.port: 12345
+      traefik.docker.network: ${DOCKER_NETWORK}
+      traefik.frontend.rule: 'Host:belair.test'
+      traefik.passHostHeader: 'true'
+      traefik.frontend.headers.SSLRedirect: 'false'
+      traefik.frontend.headers.frameDeny: 'true'
+      traefik.frontend.headers.browserXSSFilter: 'true'
+      traefik.frontend.headers.STSSeconds: '315360000'
+      traefik.frontend.headers.STSIncludeSubdomains: 'true'
+      traefik.frontend.headers.STSPreload: 'true'
+
+  cron:
+    depends_on:
+      - redis
+    image: dotburo/belair
+    container_name: belair-cron
+    networks:
+      - internal
+    volumes:
+      - .:/var/www/html
+    command: ['node', 'build/cron/index.js']
+    labels:
+      traefik.enable: 'false'
+
+  redis:
+    image: redislabs/redistimeseries
+    container_name: belair-redis
+    networks:
+      - internal
+    ports:
+      - 6379:6379
+    volumes:
+      - redis-data:/data
+    labels:
+      traefik.backend: 'false'
