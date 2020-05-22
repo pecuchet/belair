@@ -6,9 +6,9 @@
   "scripts": {
     "build": "preact build",
     "serve": "sirv build --cors --single",
-    "dev": "preact watch -p 12345",
     "lint": "eslint src",
     "test": "jest",
+    "dev:client": "preact watch -p 12345",
     "dev:cron": "webpack --mode development --config webpack.config.cron.js"
   },
   "eslintConfig": {
@@ -25,12 +25,14 @@
     "identity-obj-proxy": "^3.0.0",
     "jest": "^24.9.0",
     "jest-preset-preact": "^1.0.0",
+    "nodemon-webpack-plugin": "^4.3.1",
     "preact-cli": "^3.0.0-rc.6",
     "preact-render-spy": "^1.2.1",
     "sirv-cli": "^0.4.5",
     "webpack-cli": "^3.3.11"
   },
   "dependencies": {
+    "axios": "^0.19.2",
     "cron": "github:kelektiv/node-cron#master",
     "preact": "^10.3.2",
     "preact-render-to-string": "^5.1.4",

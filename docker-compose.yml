@@ -52,7 +52,7 @@ services:
       - internal
     volumes:
       - .:/var/www/html
-    command: ['node', 'build/cron/index.js']
+    command: ['npm', 'run', 'dev:cron']
     labels:
       traefik.enable: 'false'
 
